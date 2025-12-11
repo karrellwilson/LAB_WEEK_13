@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp) // Untuk Room & Moshi
-    kotlin("kapt")          // <--- WAJIB ADA UNTUK DATA BINDING!
+    kotlin("kapt")          // WAJIB ADA UNTUK DATA BINDING!
 }
 
 android {
@@ -48,22 +48,25 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.recyclerview) // Fix Error Recyclerview
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Networking
+    // Networking (Retrofit & Moshi)
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.kotlin.codegen) // Tetap pakai KSP untuk Moshi
+    ksp(libs.moshi.kotlin.codegen) // KSP untuk Moshi
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // WorkManager (Untuk Part 3 Background Task)
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Image Loading
     implementation(libs.glide)
@@ -71,7 +74,7 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler) // Tetap pakai KSP untuk Room
+    ksp(libs.androidx.room.compiler) // KSP untuk Room
 
     // Testing
     testImplementation(libs.junit)
