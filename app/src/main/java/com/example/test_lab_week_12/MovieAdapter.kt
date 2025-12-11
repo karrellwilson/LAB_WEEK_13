@@ -14,7 +14,7 @@ class MovieAdapter(private val onClick: (Movie) -> Unit) : RecyclerView.Adapter<
 
     fun addMovies(newMovies: List<Movie>) {
         movies.clear()
-        movies.addAll(newMovies)
+        movies.addAll(newMovies) // Ini aman karena kita kirim emptyList() jika null
         notifyDataSetChanged()
     }
 
