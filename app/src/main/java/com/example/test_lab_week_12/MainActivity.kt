@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import java.util.Calendar // Penting: Import Calendar untuk filter tahun
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +36,28 @@ class MainActivity : AppCompatActivity() {
             }
         })[MovieViewModel::class.java]
 
-        // --- UPDATE BAGIAN INI UNTUK FLOW ---
+        // --- UPDATE BAGIAN INI UNTUK FLOW & ASSIGNMENT ---
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // Launch coroutine baru untuk observe movies
                 launch {
                     movieViewModel.popularMovies.collect { movies ->
-                        movieAdapter.addMovies(movies)
+
+                        // --- BAGIAN ASSIGNMENT: Filter & Sort ---
+                        val currentYear = Calendar.getInstance().get(Calendar.YEAR).toString()
+
+                        val filteredMovies = movies
+                            .filter { movie ->
+                                // Hanya ambil film yang rilis tahun ini
+                                movie.releaseDate?.startsWith(currentYear) == true
+                            }
+                            .sortedByDescending { movie ->
+                                // Urutkan dari yang paling populer
+                                movie.popularity
+                            }
+
+                        // Masukkan data yang SUDAH difilter ke adapter
+                        movieAdapter.addMovies(filteredMovies)
                     }
                 }
 
